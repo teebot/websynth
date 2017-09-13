@@ -1,6 +1,6 @@
 {
-  "name": "ts-starter",
-  "version": "1.0.1",
+  "name": "Web Synthetizer From Hell",
+  "version": "1.0.0",
   "scripts": {
     "start": "webpack-dev-server --hot --inline"
   },

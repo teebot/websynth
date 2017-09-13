@@ -1,28 +1,135 @@
 <!doctype html>
-<html lang=en>
-<meta charset=utf-8>
-<title>🕴</title>
-<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css>
+<html>
+<head>
+    <meta charset=utf-8>
+    <title>Web Synthetizer From 🔥👹</title>
 
-<h1>WEB SYNTH</h1>
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
 
-<form>
-    <label for="note">Note</label>
-    <input type="range" name="note" id="note" min="0" max="2000" />
+    <link rel=stylesheet href=/styles/main.css>
+</head>
 
-    <label for="octave1">Osc 1 Octave</label>
-    <input type="range" name="octave1" id="octave1" min="1" max="8" value="1" />
+<body lang=en>
+<div class="top-panel"></div>
+<div class="synth-board">
+    <div class="left-panel"></div>
+    <div class="control-panel">
+        <h1 class="synth-brand">Web Synthetizer From 🔥👹</h1>
 
-    <label for="coarse1">Osc 1 Coarse</label>
-    <input type="range" name="coarse1" id="coarse1" min="0" max="24"  value="0" />
+        <form>
+            <fieldset class="control-group">
+                <legend>OSC1</legend>
+                <label for="gain1">Gain</label>
+                <input type="range" name="gain1" id="gain1" min="0" max="10" step="0.1" value="10"/>
+
+                <label for="octave1">Octave</label>
+                <input type="range" name="octave1" id="octave1" min="-2" max="2" value="0"/>
+
+                <label for="coarse1">Coarse</label>
+                <input type="range" name="coarse1" id="coarse1" min="0" max="24" value="0"/>
+
+                <div class="waveforms">
+                    <label>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125">
+                            <path d="M89.2 60.8c-4.5 0-6.6-5.3-8.6-10.4-1.8-4.5-3.6-9-6.8-9s-5 4.5-6.8 9c-2 5-4 10.4-8.6 10.4s-6.6-5.3-8.6-10.4c-1.8-4.5-3.6-9-6.8-9s-5 4.5-6.8 9c-2 5-4 10.4-8.6 10.4-4.5 0-6.6-5.3-8.6-10.4-1.8-4.5-3.6-9-6.8-9-.6 0-1-.5-1-1s.4-1 1-1c4.5 0 6.6 5.2 8.6 10.3 1.8 4.5 3.6 9 6.8 9 3.2 0 5-4.5 6.8-9 2-5 4-10.4 8.6-10.4s6.6 5.3 8.6 10.4c1.8 4.5 3.6 9 6.8 9 3.2 0 5-4.5 6.8-9 2-5 4-10.4 8.6-10.4s6.6 5.3 8.6 10.4c1.8 4.5 3.6 9 6.8 9 .6 0 1 .5 1 1s-.4 1-1 1z"/>
+                        </svg>
+                        <input type="radio" name="wave1" value="sine"/>
+                    </label>
+
+                    <label>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125">
+                            <path d="M95 61H79V41H66v20H49V41H36v20H19V41H5v-2h16v20h13V39h17v20h13V39h17v20h14"/>
+                        </svg>
+                        <input type="radio" name="wave1" value="square"/>
+                    </label>
+
+                    <label>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125">
+                            <path d="M64 62V42L34 62V42L5.6 60.7l-1.2-1.6 31.6-21v20l30-20v20l28.4-19 1.2 1.6"/>
+                        </svg>
+                        <input type="radio" name="wave1" value="sawtooth" checked/>
+                    </label>
+
+                    <label>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125">
+                            <path d="M57.5 61.7l-15-20-15 20-15.8-21 1.6-1.3 14.2 19 15-20 15 20 15-20 15.8 21-1.6 1.2-14.2-19"/>
+                        </svg>
+                        <input type="radio" name="wave1" value="triangle" checked/>
+                    </label>
+                </div>
+            </fieldset>
+
+            <fieldset class="control-group">
+                <legend>OSC2</legend>
+                <label for="gain2">Gain</label>
+                <input type="range" name="gain2" id="gain2" min="0" max="10" step="0.1" value="10"/>
+
+                <label for="octave2">Octave</label>
+                <input type="range" name="octave2" id="octave2" min="-2" max="2" value="0"/>
 
 
-    <label for="octave2">Osc 2 Octave</label>
-    <input type="range" name="octave2" id="octave2" min="1" max="8" value="1" />
+                <label for="coarse2">Coarse</label>
+                <input type="range" name="coarse2" id="coarse2" min="0" max="24" value="0"/>
 
+                <div class="waveforms">
+                    <label>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125">
+                            <path d="M89.2 60.8c-4.5 0-6.6-5.3-8.6-10.4-1.8-4.5-3.6-9-6.8-9s-5 4.5-6.8 9c-2 5-4 10.4-8.6 10.4s-6.6-5.3-8.6-10.4c-1.8-4.5-3.6-9-6.8-9s-5 4.5-6.8 9c-2 5-4 10.4-8.6 10.4-4.5 0-6.6-5.3-8.6-10.4-1.8-4.5-3.6-9-6.8-9-.6 0-1-.5-1-1s.4-1 1-1c4.5 0 6.6 5.2 8.6 10.3 1.8 4.5 3.6 9 6.8 9 3.2 0 5-4.5 6.8-9 2-5 4-10.4 8.6-10.4s6.6 5.3 8.6 10.4c1.8 4.5 3.6 9 6.8 9 3.2 0 5-4.5 6.8-9 2-5 4-10.4 8.6-10.4s6.6 5.3 8.6 10.4c1.8 4.5 3.6 9 6.8 9 .6 0 1 .5 1 1s-.4 1-1 1z"/>
+                        </svg>
+                        <input type="radio" name="wave2" value="sine"/>
+                    </label>
 
-    <label for="coarse2">Osc 2 Coarse</label>
-    <input type="range" name="coarse2" id="coarse2" min="0" max="24" value="0" />
-</form>
+                    <label>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125">
+                            <path d="M95 61H79V41H66v20H49V41H36v20H19V41H5v-2h16v20h13V39h17v20h13V39h17v20h14"/>
+                        </svg>
+                        <input type="radio" name="wave2" value="square"/>
+                    </label>
+
+                    <label>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125">
+                            <path d="M64 62V42L34 62V42L5.6 60.7l-1.2-1.6 31.6-21v20l30-20v20l28.4-19 1.2 1.6"/>
+                        </svg>
+                        <input type="radio" name="wave2" value="sawtooth" checked/>
+                    </label>
+
+                    <label>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125">
+                            <path d="M57.5 61.7l-15-20-15 20-15.8-21 1.6-1.3 14.2 19 15-20 15 20 15-20 15.8 21-1.6 1.2-14.2-19"/>
+                        </svg>
+                        <input type="radio" name="wave2" value="triangle" checked/>
+                    </label>
+                </div>
+            </fieldset>
+        </form>
+
+        <div class="keyboard">
+            <ul class="keys">
+                <li class="white c" data-note="c"></li>
+                <li class="black cs" data-note="cs"></li>
+                <li class="white d" data-note="d"></li>
+                <li class="black ds" data-note="ds"></li>
+                <li class="white e" data-note="e"></li>
+                <li class="white f" data-note="f"></li>
+                <li class="black fs" data-note="fs"></li>
+                <li class="white g" data-note="g"></li>
+                <li class="black gs" data-note="gs"></li>
+                <li class="white a" data-note="a"></li>
+                <li class="black as" data-note="as"></li>
+                <li class="white b" data-note="b"></li>
+            </ul>
+        </div>
+        <!--END CONTROL-PANEL-->
+        <!--<footer>-->
+            <!--Waveform icons by Aurélien Lemesre from the Noun Project-->
+        <!--</footer>-->
+    </div>
+    <div class="right-panel"></div>
+    <!--END CONTAINER-->
+</div>
+<div class="bottom-panel"></div>
 <script src=out/main.js></script>
+</body>
 </html>
