@@ -1,58 +1,25 @@
 import './commonImports';
 import { Observable } from 'rxjs/Observable';
 import { makeOscillator } from './osciallator.factory';
-
-const KEYBOARD_MAPPING = {
-    'KeyA': 261.626, // C4
-    'KeyW': 277.183, // C# 4
-    'KeyS': 293.665, // D 4
-    'KeyE': 311.127, // ...
-    'KeyD': 329.628,
-    'KeyF': 349.228,
-    'KeyT': 369.994,
-    'KeyG': 391.995,
-    'KeyY': 415.305,
-    'KeyH': 440,
-    'KeyU': 466.164,
-    'KeyJ': 493.883,
-    'KeyK': 523.251,
-    'KeyO': 554.365,
-    'KeyL': 587.33,
-    'KeyP': 622.254,
-    'KeyM': 659.255
-};
-
-const PIANO_MAPPING = {
-    'c': 261.626, // C4
-    'cs': 277.183, // C# 4
-    'd': 293.665, // D 4
-    'ds': 311.127, // ...
-    'e': 329.628,
-    'f': 349.228,
-    'fs': 369.994,
-    'g': 391.995,
-    'gs': 415.305,
-    'a': 440,
-    'as': 466.164,
-    'b': 493.883
-};
+import { KEYBOARD_MAPPING, PIANO_MAPPING } from './constants';
 
 const audioCtx = new AudioContext();
 
-// create Oscillator nodes
-
+// create Oscillator/Gain nodes
 const oscillator1 = makeOscillator(audioCtx, 0, 'sawtooth');
 oscillator1.oscillatorNode.start();
 
 const oscillator2 = makeOscillator(audioCtx,0, 'square');
 oscillator2.oscillatorNode.start();
 
+// Create an observable of numbers emitted from a DOM range input
 const observeRange = (selector, initialValue = 0): Observable<number> =>
     Observable.fromEvent(document.querySelector(selector), 'change')
         .map((e: Event) => parseInt((<HTMLInputElement>e.target).value))
         .startWith(initialValue);
 
-const observeFrequency = (initialFreq, oct$, coarse$): Observable<number> => initialFreq
+// Create an observable from different source observables to emit a calculated frequency to play
+const observeFrequency = (initialFreq$, oct$, coarse$): Observable<number> => initialFreq$
     .combineLatest(oct$, coarse$)
     .map(([initialFreq, octave, coarse]) => {
         if (initialFreq === 0)
@@ -65,10 +32,11 @@ const observeFrequency = (initialFreq, oct$, coarse$): Observable<number> => ini
         return (initialFreq * (octave + 1)) + coarse;
     });
 
+// Observe notes played on the virtual piano and computer keyboard
 const pianoKeysReleased$ = Observable.fromEvent(document.querySelectorAll('ul.keys li'), 'mouseup').mapTo(0);
-const pianoKeysTouched$ = Observable.fromEvent(document.querySelectorAll('ul.keys li'), 'mousedown').map((e: any) => PIANO_MAPPING[e.target.dataset.note]);
+const pianoKeysTouched$ = Observable.fromEvent(document.querySelectorAll('ul.keys li'), 'mousedown')
+    .map((e: any) => PIANO_MAPPING[e.target.dataset.note]);
 const pianoKeys$ = Observable.merge(pianoKeysTouched$, pianoKeysReleased$);
-
 
 const keyboardNotes$ = Observable.fromEvent(document, 'keydown').merge(Observable.fromEvent(document, 'keyup'))
     .scan((acc: Array<string>, curr: KeyboardEvent) => {
@@ -86,6 +54,7 @@ const keyboardNotes$ = Observable.fromEvent(document, 'keydown').merge(Observabl
 const monoNotePlayed$ = keyboardNotes$.map(notes => notes[0] || 0);
 const notesPlayed$ = Observable.merge(pianoKeys$, monoNotePlayed$);
 
+// Observe changes from DOM inputs
 const osc1oct$ = observeRange('#octave1');
 const osc2oct$ = observeRange('#octave2');
 
@@ -106,6 +75,7 @@ const osc2waveForm$ = Observable.fromEvent(document.querySelectorAll('input[name
     .map((radioEvent:Event) => (<HTMLInputElement>radioEvent.target).value)
     .startWith('sawtooth');
 
+// Main subscribe combining all observables and setting the corresponding parameters
 Observable.combineLatest(osc1Freq$, osc2Freq$, osc1gain$, osc2gain$, osc1waveForm$, osc2waveForm$)
     .subscribe(([osc1Freq, osc2Freq, osc1gain, osc2gain, osc1waveForm, osc2waveForm]) => {
         oscillator1.oscillatorNode.frequency.value = osc1Freq;

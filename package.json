@@ -1,8 +1,9 @@
 {
-  "name": "Web Synthetizer From Hell",
+  "name": "websynth",
   "version": "1.0.0",
   "scripts": {
-    "start": "webpack-dev-server --hot --inline"
+    "start": "webpack-dev-server --hot --inline",
+    "build": "webpack"
   },
   "dependencies": {
     "rxjs": "^5.4.3"
