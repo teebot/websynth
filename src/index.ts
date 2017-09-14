@@ -14,7 +14,7 @@ oscillator2.oscillatorNode.start();
 
 // Create an observable of numbers emitted from a DOM range input
 const observeRange = (selector, initialValue = 0): Observable<number> =>
-    Observable.fromEvent(document.querySelector(selector), 'change')
+    Observable.fromEvent(document.querySelector(selector), 'input')
         .map((e: Event) => parseInt((<HTMLInputElement>e.target).value))
         .startWith(initialValue);
 
@@ -38,7 +38,7 @@ const observeWaveForm = (inputName) => Observable.fromEvent(document.querySelect
     .startWith('sawtooth');
 
 // Observe notes played on the virtual piano and computer keyboard
-const pianoKeysReleased$ = Observable.fromEvent(document, 'mouseup').mapTo(0);
+const pianoKeysReleased$ = Observable.fromEvent(document.querySelectorAll('ul.keys li'), 'mouseup').mapTo(0);
 const pianoKeysTouched$ = Observable.fromEvent(document.querySelectorAll('ul.keys li'), 'mousedown')
     .map((e: any) => PIANO_MAPPING[e.target.dataset.note]);
 const pianoKeys$ = Observable.merge(pianoKeysTouched$, pianoKeysReleased$);
