@@ -4,19 +4,28 @@ import { makeOscillator } from './osciallator.factory';
 import { KEYBOARD_MAPPING, PIANO_MAPPING } from './constants';
 
 const audioCtx = new AudioContext();
+const lowpassFilter = audioCtx.createBiquadFilter();
+lowpassFilter.type = 'lowpass';
 
 // create Oscillator/Gain nodes
 const oscillator1 = makeOscillator(audioCtx, 0, 'sawtooth');
-oscillator1.gainNode.connect(audioCtx.destination);
+oscillator1.gainNode.connect(lowpassFilter);
 
 const oscillator2 = makeOscillator(audioCtx,0, 'square');
-oscillator2.gainNode.connect(audioCtx.destination);
+oscillator2.gainNode.connect(lowpassFilter);
+
+lowpassFilter.connect(audioCtx.destination);
 
 // Create an observable of numbers emitted from a DOM range input
 const observeRange = (selector, initialValue = 0): Observable<number> =>
     Observable.fromEvent(document.querySelector(selector), 'input')
         .map((e: Event) => parseInt((<HTMLInputElement>e.target).value))
         .startWith(initialValue);
+
+// Create an observable of waveform from DOM radio buttons
+const observeRadios = (inputName, initialValue) => Observable.fromEvent(document.querySelectorAll(`input[name="${inputName}"]`), 'change')
+    .map((radioEvent:Event) => (<HTMLInputElement>radioEvent.target).value)
+    .startWith(initialValue);
 
 // Create an observable from different source observables to emit a calculated frequency to play
 const observeFrequency = (initialFreq$, oct$, coarse$): Observable<number> => initialFreq$
@@ -31,11 +40,6 @@ const observeFrequency = (initialFreq$, oct$, coarse$): Observable<number> => in
 
         return (initialFreq * (octave + 1)) + coarse;
     });
-
-// Create an observable of waveform from DOM radio buttons
-const observeWaveForm = (inputName) => Observable.fromEvent(document.querySelectorAll(`input[name="${inputName}"]`), 'change')
-    .map((radioEvent:Event) => (<HTMLInputElement>radioEvent.target).value)
-    .startWith('sawtooth');
 
 // Observe notes played on the virtual piano and computer keyboard
 const pianoKeysReleased$ = Observable.fromEvent(document.querySelectorAll('ul.keys li'), 'mouseup').mapTo(0);
@@ -75,8 +79,11 @@ const osc2Freq$ = observeFrequency(notesPlayed$, osc2oct$, osc2coarse$);
 observeRange('#gain1', 10).map(i => i/10).subscribe(gain => oscillator1.gainNode.gain.value = gain);
 observeRange('#gain2', 10).map(i => i/10).subscribe(gain => oscillator2.gainNode.gain.value = gain);
 
-observeWaveForm('wave1').subscribe(waveForm => oscillator1.oscillatorNode.type = waveForm as OscillatorType);
-observeWaveForm('wave2').subscribe(waveForm => oscillator2.oscillatorNode.type = waveForm as OscillatorType);
+observeRadios('wave1', 'sawtooth').subscribe(waveForm => oscillator1.oscillatorNode.type = waveForm as OscillatorType);
+observeRadios('wave2', 'sawtooth').subscribe(waveForm => oscillator2.oscillatorNode.type = waveForm as OscillatorType);
+
+observeRange('#cutoff', 20000).subscribe(freq => lowpassFilter.frequency.value = freq);
+observeRange('#resonance', 0).subscribe(q => lowpassFilter.Q.value = q);
 
 Observable.combineLatest(osc1Freq$, osc2Freq$)
     .subscribe(([osc1Freq, osc2Freq]) => {
