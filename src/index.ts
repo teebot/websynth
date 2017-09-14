@@ -7,10 +7,10 @@ const audioCtx = new AudioContext();
 
 // create Oscillator/Gain nodes
 const oscillator1 = makeOscillator(audioCtx, 0, 'sawtooth');
-oscillator1.oscillatorNode.start();
+oscillator1.gainNode.connect(audioCtx.destination);
 
 const oscillator2 = makeOscillator(audioCtx,0, 'square');
-oscillator2.oscillatorNode.start();
+oscillator2.gainNode.connect(audioCtx.destination);
 
 // Create an observable of numbers emitted from a DOM range input
 const observeRange = (selector, initialValue = 0): Observable<number> =>
@@ -76,10 +76,10 @@ observeRange('#gain1', 10).map(i => i/10).subscribe(gain => oscillator1.gainNode
 observeRange('#gain2', 10).map(i => i/10).subscribe(gain => oscillator2.gainNode.gain.value = gain);
 
 observeWaveForm('wave1').subscribe(waveForm => oscillator1.oscillatorNode.type = waveForm as OscillatorType);
-observeWaveForm('wave2').subscribe(waveForm => oscillator1.oscillatorNode.type = waveForm as OscillatorType);
+observeWaveForm('wave2').subscribe(waveForm => oscillator2.oscillatorNode.type = waveForm as OscillatorType);
 
 Observable.combineLatest(osc1Freq$, osc2Freq$)
     .subscribe(([osc1Freq, osc2Freq]) => {
-        oscillator1.oscillatorNode.frequency.value = osc1Freq;
-        oscillator2.oscillatorNode.frequency.value = osc2Freq;
+        oscillator1.oscillatorNode.frequency.setValueAtTime(osc1Freq, audioCtx.currentTime);
+        oscillator2.oscillatorNode.frequency.setValueAtTime(osc2Freq, audioCtx.currentTime);
 });
