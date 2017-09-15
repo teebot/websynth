@@ -15,7 +15,7 @@ export const KEYBOARD_MAPPING = {
     'KeyO': 554.365,
     'KeyL': 587.33,
     'KeyP': 622.254,
-    'KeyM': 659.255
+    'Semicolon': 659.255
 };
 
 export const PIANO_MAPPING = {

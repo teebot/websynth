@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { makeOscillator } from './oscillator.factory';
 import { KEYBOARD_MAPPING, PIANO_MAPPING } from './constants';
 import { observeRadios, observeRange } from './dom.util';
+const VALID_KEYS = Object.keys(KEYBOARD_MAPPING);
 
 const audioCtx = new AudioContext();
 const lowpassFilter = audioCtx.createBiquadFilter();
@@ -42,7 +43,7 @@ const keyboardNotes$ = Observable.fromEvent(document, 'keydown').merge(Observabl
         if (curr.type === 'keyup') {
             return acc.filter(k => k !== curr.code)
         }
-        if (curr.type === 'keydown' && acc.indexOf(curr.code) === -1) {
+        if (curr.type === 'keydown' && acc.indexOf(curr.code) === -1 && VALID_KEYS.indexOf(curr.code) !== -1) {
             return [...acc, curr.code];
         }
         return acc;
