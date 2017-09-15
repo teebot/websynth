@@ -183,6 +183,16 @@ input[type=range]:focus::-ms-fill-upper {
     display: inline-block;
 }
 
+.keyboard .notice {
+    font-size: 10px;
+    margin: 12px 0 0;
+}
+
+.keyboard svg {
+    height: 40px;
+    fill: currentColor;
+}
+
 ul.keys {
     display: flex;
     border-radius: 4px;
