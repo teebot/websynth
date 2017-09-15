@@ -2,7 +2,7 @@ import './commonImports';
 import { Observable } from 'rxjs/Observable';
 import { makeOscillator } from './oscillator.factory';
 import { KEYBOARD_MAPPING, PIANO_MAPPING } from './constants';
-import { observeRadios, observeRange } from './dom.util';
+import { observeRadios, observeRange, observeCheckbox } from './dom.util';
 const VALID_KEYS = Object.keys(KEYBOARD_MAPPING);
 
 const audioCtx = new AudioContext();
@@ -65,6 +65,10 @@ const osc2coarse$ = observeRange('#coarse2');
 const osc1Freq$ = observeFrequency(notePlayed$, osc1oct$, osc1coarse$);
 const osc2Freq$ = observeFrequency(notePlayed$, osc2oct$, osc2coarse$);
 
+const glideEnabled$ = observeCheckbox('#glideOn', false);
+const glide$ = Observable.combineLatest(glideEnabled$, observeRange('#glide', 1).map(i => i / 10))
+    .map(([glideEnabled, glide]) => glideEnabled ? glide : 0);
+
 // Main subscribes combining observables and setting the corresponding parameters
 
 const gain1$ = observeRange('#gain1', 10).map(i => i / 10);
@@ -96,11 +100,18 @@ observeRange('#cutoff', 20000).subscribe(freq => lowpassFilter.frequency.value =
 observeRange('#resonance', 0).subscribe(q => lowpassFilter.Q.value = q);
 
 // Apply note played
-Observable.combineLatest(osc1Freq$.filter(f => f !== 0), osc2Freq$.filter(f => f !== 0))
-    .subscribe(([osc1Freq, osc2Freq]) => {
-        oscillator1.oscillatorNode.frequency.setValueAtTime(osc1Freq, audioCtx.currentTime);
-        oscillator2.oscillatorNode.frequency.setValueAtTime(osc2Freq, audioCtx.currentTime);
+Observable.combineLatest(osc1Freq$.filter(f => f !== 0), osc2Freq$.filter(f => f !== 0), glide$)
+    .subscribe(([osc1Freq, osc2Freq, glide]) => {
+        setFreq(oscillator1.oscillatorNode, osc1Freq, glide);
+        setFreq(oscillator2.oscillatorNode, osc2Freq, glide);
     });
+
+// Set oscillator freq
+function setFreq(oscillatorNode: OscillatorNode, freq: number, glide: number) {
+    oscillatorNode.frequency.cancelScheduledValues(audioCtx.currentTime);
+    oscillatorNode.frequency.setValueAtTime(oscillatorNode.frequency.value, audioCtx.currentTime);
+    oscillatorNode.frequency.linearRampToValueAtTime(freq, audioCtx.currentTime + glide);
+}
 
 // Envelope
 function envGenOn(param: AudioParam, release: number) {
