@@ -3,10 +3,17 @@ import { Observable } from 'rxjs/Observable';
 import { makeOscillator } from './oscillator.factory';
 import { KEYBOARD_MAPPING, PIANO_MAPPING } from './constants';
 import { observeRadios, observeRange, observeCheckbox } from './dom.util';
+import { drawOscilloscope } from './oscilloscope';
+
 const VALID_KEYS = Object.keys(KEYBOARD_MAPPING);
 
 const audioCtx = new AudioContext();
 const lowpassFilter = audioCtx.createBiquadFilter();
+const analyser = audioCtx.createAnalyser();
+analyser.minDecibels = -90;
+analyser.maxDecibels = -10;
+analyser.smoothingTimeConstant = 0.85;
+
 lowpassFilter.type = 'lowpass';
 
 // create Oscillator/Gain nodes
@@ -16,7 +23,8 @@ oscillator1.gainNode.connect(lowpassFilter);
 const oscillator2 = makeOscillator(audioCtx, 0, 'square');
 oscillator2.gainNode.connect(lowpassFilter);
 
-lowpassFilter.connect(audioCtx.destination);
+lowpassFilter.connect(analyser);
+analyser.connect(audioCtx.destination);
 
 // Create an observable from different source observables to emit a calculated frequency to play
 const observeFrequency = (initialFreq$, oct$, coarse$): Observable<number> => initialFreq$
@@ -96,6 +104,7 @@ Observable.combineLatest(notePlayed$, gain1$, gain2$, attack$, decay$, sustain$,
 observeRadios('wave1', 'sawtooth').subscribe(waveForm => oscillator1.oscillatorNode.type = waveForm as OscillatorType);
 observeRadios('wave2', 'sawtooth').subscribe(waveForm => oscillator2.oscillatorNode.type = waveForm as OscillatorType);
 
+// TODO: Add optional enveloppe to these 2 combined
 observeRange('#cutoff', 20000).subscribe(freq => lowpassFilter.frequency.value = freq);
 observeRange('#resonance', 0).subscribe(q => lowpassFilter.Q.value = q);
 
@@ -105,6 +114,9 @@ Observable.combineLatest(osc1Freq$.filter(f => f !== 0), osc2Freq$.filter(f => f
         setFreq(oscillator1.oscillatorNode, osc1Freq, glide);
         setFreq(oscillator2.oscillatorNode, osc2Freq, glide);
     });
+
+drawOscilloscope('oscilloscope', analyser);
+
 
 // Set oscillator freq
 function setFreq(oscillatorNode: OscillatorNode, freq: number, glide: number) {
