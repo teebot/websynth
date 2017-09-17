@@ -34,7 +34,12 @@ form {
 }
 
 footer {
-    margin-top: 12px;
+    margin: 12px;
+}
+
+.footer-links a {
+    color: #fff;
+    font-weight: bold;
 }
 
 .control-group fieldset {
