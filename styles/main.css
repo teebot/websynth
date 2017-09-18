@@ -94,8 +94,7 @@ label svg {
 /*RANGE CONTROLS*/
 
 input[type=range] {
-    -moz-transform: rotate(270deg);
-    -webkit-appearance: none;
+    -webkit-appearance: none;n
     width: 100%;
 }
 

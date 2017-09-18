@@ -6,6 +6,7 @@ import { observeRadios, observeRange, observeCheckbox } from './dom.util';
 import { drawOscilloscope } from './oscilloscope';
 
 const VALID_KEYS = Object.keys(KEYBOARD_MAPPING);
+const AudioContext = (<any>window).AudioContext || (<any>window).webkitAudioContext;
 
 const audioCtx = new AudioContext();
 const lowpassFilter = audioCtx.createBiquadFilter();
