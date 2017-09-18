@@ -2,9 +2,20 @@
     box-sizing: border-box;
 }
 
+html {
+    height: 100%;
+}
+
 body {
     color: #fff;
-    background: #000;
+    background: linear-gradient(rgba(0, 0, 0, 0.71), rgba(0, 0, 0, 0.29));
+    background-repeat: no-repeat;
+    height: 100%;
+}
+
+.synth-container {
+    margin-top: 2em;
+    box-shadow: 0px 2px 12px 0 #000;
 }
 
 .synth-board {
@@ -31,6 +42,8 @@ body {
 form {
     display: flex;
     flex-wrap: wrap;
+    align-content: space-around;
+    margin: 0;
 }
 
 footer {
@@ -43,6 +56,7 @@ footer {
 }
 
 .control-group fieldset {
+    min-width: 220px;
     padding: 12px;
     border: 1px solid #fff;
     border-radius: 5px;
@@ -61,6 +75,12 @@ label svg {
     justify-content: space-around;
 }
 
+.waveforms label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .synth-brand {
     font-size: 36px;
     font-family: cursive;
@@ -73,7 +93,8 @@ label svg {
 }
 
 .control-group {
-    margin-right: 12px;
+    padding: 4px;
+    flex: 1;
 }
 
 /*RANGE CONTROLS*/
@@ -185,7 +206,7 @@ input[type=range]:focus::-ms-fill-upper {
     height: 200px;
     display: inline-block;
     border: 5px inset rgb(65, 23, 3);
-    margin: 30px;
+    margin: 30px 0 0 20px;
 }
 
 /*KEYBOARD*/
@@ -223,7 +244,7 @@ li {
 }
 
 li.white {
-    height: 16em;
+    height: 11em;
     width: 4em;
     background: linear-gradient(#f0f0f0, #fff);
     box-shadow: inset 2px -2px 0px 0 #fff;
@@ -239,7 +260,7 @@ li.black {
     width: 2em;
     background: linear-gradient(#585858, #2b2b2b);
     box-shadow: inset 5px -10px 0px 0 #000;
-    height: 8em;
+    height: 6em;
     margin: 0 0 0 -1em;
     z-index: 2;
 }
