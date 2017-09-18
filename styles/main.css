@@ -94,7 +94,7 @@ label svg {
 /*RANGE CONTROLS*/
 
 input[type=range] {
-    -webkit-appearance: none;n
+    -webkit-appearance: none;
     width: 100%;
 }
 

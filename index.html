@@ -133,16 +133,16 @@
                         <fieldset>
                             <legend>ENVELOPE</legend>
                             <label for="attack">Attack</label>
-                            <input type="range" name="attack" id="attack" min="0" max="5" step="0.1" value="0"/>
+                            <input type="range" name="attack" id="attack" min="0" max="40" step="1" value="0"/>
 
                             <label for="decay">Decay</label>
-                            <input type="range" name="decay" id="decay" min="0" max="5" step="0.1" value="0"/>
+                            <input type="range" name="decay" id="decay" min="0" max="40" step="1" value="0"/>
 
                             <label for="sustain">Sustain</label>
                             <input type="range" name="sustain" id="sustain" min="0" max="10" step="1" value="10"/>
 
                             <label for="release">Release</label>
-                            <input type="range" name="release" id="release" min="0" max="5" step="0.1" value="0"/>
+                            <input type="range" name="release" id="release" min="0" max="20" step="1" value="0"/>
                         </fieldset>
                     </div>
                 </form>
@@ -163,7 +163,7 @@
                         <li class="white b" data-note="b"></li>
                     </ul>
                     <div class="notice">
-                        or use MIDI device or computer keyboard keys q,s,d, ...
+                        or use computer keys q,s,d, ...
                     </div>
                 </div>
                 <canvas id="oscilloscope"></canvas>
