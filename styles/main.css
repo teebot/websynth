@@ -2,15 +2,9 @@
     box-sizing: border-box;
 }
 
-html {
-    height: 100%;
-}
-
 body {
     color: #fff;
-    background: linear-gradient(rgba(0, 0, 0, 0.71), rgba(0, 0, 0, 0.29));
-    background-repeat: no-repeat;
-    height: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.71), rgba(0, 0, 0, 0.29), rgba(0, 0, 0, 0.71));
 }
 
 .synth-container {

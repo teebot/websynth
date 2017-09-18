@@ -1,5 +1,5 @@
 
-# Web Synthetizer From Hell
+# Web Synthetizer From Space 👽
 
 `npm i` to install, `npm start` to launch, `npm run build` to build
 
