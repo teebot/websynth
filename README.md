@@ -12,4 +12,5 @@
 - Virtual keyboard
 - Oscilloscope viz
 
-![screenshot](https://user-images.githubusercontent.com/1481931/30522830-e204fcac-9bd6-11e7-9d79-0d3f21d832d6.png)
+![screenshot](https://user-images.githubusercontent.com/1481931/30545203-3de4a9a2-9c89-11e7-8660-5aa1a5084623.png)
+
