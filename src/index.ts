@@ -34,7 +34,7 @@ const observeFrequency = (initialFreq$, oct$, coarse$): Observable<number> => in
         if (initialFreq === 0)
             return 0;
 
-        return (initialFreq * Math.pow(2, octave)) + coarse;
+        return (initialFreq * Math.pow(2, octave + coarse));
     });
 
 // Observe notes played on the virtual piano and computer keyboard
@@ -64,8 +64,8 @@ const notePlayed$ = Observable.merge(pianoKey$, monoNotePlayed$);
 const osc1oct$ = observeRange('#octave1', -1);
 const osc2oct$ = observeRange('#octave2', -1);
 
-const osc1coarse$ = observeRange('#coarse1');
-const osc2coarse$ = observeRange('#coarse2');
+const osc1coarse$ = observeRange('#coarse1').map(i => i / 100);
+const osc2coarse$ = observeRange('#coarse2').map(i => i / 100);
 
 const osc1Freq$ = observeFrequency(notePlayed$, osc1oct$, osc1coarse$);
 const osc2Freq$ = observeFrequency(notePlayed$, osc2oct$, osc2coarse$);
