@@ -1,6 +1,10 @@
 
 # Web Synthetizer From Space 👽
 
+DEMO here: http://synthfrom.space
+
+## Install 
+
 `npm i` to install, `npm start` to launch, `npm run build` to build
 
 ## Features
