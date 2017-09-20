@@ -1,5 +1,5 @@
 
-# Web Synthetizer From Space 👽
+# Web Synthesizer From Space 👽
 
 DEMO here: http://synthfrom.space
 
