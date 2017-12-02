@@ -79,10 +79,11 @@ const glide$ = Observable.combineLatest(glideEnabled$, observeRange('#glide', 1)
 const gain1$ = observeRange('#gain1', 10).map(i => i / 10);
 const gain2$ = observeRange('#gain2', 10).map(i => i / 10);
 
-const attack$ = observeRange('#attack', 0).map(i => i / 10);
+const paramExp = divider => i => Math.exp(i / divider) - 1;
+const attack$ = observeRange('#attack', 0).map(paramExp(10));
 const decay$ = observeRange('#decay', 0).map(i => i / 10);
 const sustain$ = observeRange('#sustain', 10).map(i => i / 10);
-const release$ = observeRange('#release', 0).map(i => i / 10);
+const release$ = observeRange('#release', 0).map(paramExp(100));
 
 // Apply envelope on oscillators gain
 Observable.combineLatest(notePlayed$, gain1$, gain2$, attack$, decay$, sustain$, release$)
