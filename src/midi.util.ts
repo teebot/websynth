@@ -1,11 +1,12 @@
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/empty';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/mergeMap';
 import MIDIAccess = WebMidi.MIDIAccess;
 import MIDIInput = WebMidi.MIDIInput;
 import MIDIMessageEvent = WebMidi.MIDIMessageEvent;
 
-const midiAccess$ = Observable.from(navigator.requestMIDIAccess());
+const midiAccess$ = navigator.requestMIDIAccess ? Observable.from(navigator.requestMIDIAccess()) : Observable.empty();
 enum keyPressed { On, Off }
 
 /**

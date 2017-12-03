@@ -1,6 +1,6 @@
 {
   "name": "websynth",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "start": "webpack-dev-server --hot --inline",
     "build": "webpack --config webpack.config.build.js"
@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@types/webmidi": "^2.0.2",
-    "ts-loader": "^2.3.7",
+    "ts-loader": "^3.2.0",
     "typescript": "^2.6.2",
     "webpack": "^3.9.1",
     "webpack-dev-server": "^2.9.5"
