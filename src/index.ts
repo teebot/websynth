@@ -4,6 +4,7 @@ import { makeOscillator } from './oscillator.factory';
 import { KEYBOARD_MAPPING, PIANO_MAPPING } from './constants';
 import { observeRadios, observeRange, observeCheckbox } from './dom.util';
 import { drawOscilloscope } from './oscilloscope';
+import { midiInputTriggers$ } from './midi.util';
 
 const VALID_KEYS = Object.keys(KEYBOARD_MAPPING);
 const AudioContext = (<any>window).AudioContext || (<any>window).webkitAudioContext;
@@ -30,12 +31,9 @@ analyser.connect(audioCtx.destination);
 // Create an observable from different source observables to emit a calculated frequency to play
 const observeFrequency = (initialFreq$, oct$, coarse$): Observable<number> => initialFreq$
     .combineLatest(oct$, coarse$)
-    .map(([initialFreq, octave, coarse]) => {
-        if (initialFreq === 0)
-            return 0;
-
-        return (initialFreq * Math.pow(2, octave + coarse));
-    });
+    .map(([initialFreq, octave, coarse]) =>
+        initialFreq * Math.pow(2, octave + coarse)
+    );
 
 // Observe notes played on the virtual piano and computer keyboard
 const pianoKeysReleased$ = Observable.fromEvent(document.querySelectorAll('ul.keys li'), 'mouseup').mapTo(0);
@@ -58,7 +56,8 @@ const keyboardNotes$ = Observable.fromEvent(document, 'keydown').merge(Observabl
     .share();
 
 const monoNotePlayed$ = keyboardNotes$.map(notes => notes[0] || 0);
-const notePlayed$ = Observable.merge(pianoKey$, monoNotePlayed$);
+const monoMidiPlayed$ = midiInputTriggers$.map(midiTrig => (midiTrig[0] && midiTrig[0].pitch) || 0);
+const notePlayed$ = Observable.merge(pianoKey$, monoNotePlayed$, monoMidiPlayed$);
 
 // Observe changes from DOM inputs
 const osc1oct$ = observeRange('#octave1', -1);

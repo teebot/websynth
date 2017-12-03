@@ -6,13 +6,13 @@
     "build": "webpack --config webpack.config.build.js"
   },
   "dependencies": {
-    "rxjs": "^5.4.3"
+    "rxjs": "^5.5.3"
   },
   "devDependencies": {
-    "@types/es6-promise": "0.0.33",
+    "@types/webmidi": "^2.0.2",
     "ts-loader": "^2.3.7",
-    "typescript": "^2.5.2",
-    "webpack": "^3.5.6",
-    "webpack-dev-server": "^2.7.1"
+    "typescript": "^2.6.2",
+    "webpack": "^3.9.1",
+    "webpack-dev-server": "^2.9.5"
   }
 }
