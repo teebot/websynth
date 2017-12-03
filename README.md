@@ -15,6 +15,7 @@ DEMO here: http://synthfrom.space
 - Amplitude envelope
 - Virtual keyboard
 - Oscilloscope viz
+- Web MIDI support
 
 ![screenshot](https://user-images.githubusercontent.com/1481931/30545203-3de4a9a2-9c89-11e7-8660-5aa1a5084623.png)
 
