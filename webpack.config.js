@@ -2,7 +2,7 @@ module.exports = {
   entry: './src/index.ts',
   devtool: 'source-map',
   output: {
-    filename: 'out/main.js'
+    filename: 'main.js'
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js']
