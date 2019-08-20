@@ -1,269 +1,302 @@
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    color: #fff;
-    background: linear-gradient(rgba(0, 0, 0, 0.71), rgba(0, 0, 0, 0.29), rgba(0, 0, 0, 0.71));
+  color: #fff;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.71),
+    rgba(0, 0, 0, 0.29),
+    rgba(0, 0, 0, 0.71)
+  );
+}
+
+.permission {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.permission-content {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 30px;
+  border-radius: 3px;
+  margin: 0 auto;
+  width: 500px;
 }
 
 .synth-container {
-    margin-top: 2em;
-    box-shadow: 0px 2px 12px 0 #000;
+  margin-top: 2em;
+  box-shadow: 0px 2px 12px 0 #000;
 }
 
 .synth-board {
-    display: flex;
-    justify-content: space-between;
-    background: url(/assets/tileable-metal-textures-5.jpg);
+  display: flex;
+  justify-content: space-between;
+  background: url(/assets/tileable-metal-textures-5.jpg);
 }
 
 .control-panel {
-    flex:1;
-    padding: 2em;
+  flex: 1;
+  padding: 2em;
 }
 
-.left-panel, .right-panel {
-    width: 2em;
-    background: url(/assets/wood-texture.png);
+.left-panel,
+.right-panel {
+  width: 2em;
+  background: url(/assets/wood-texture.png);
 }
 
-.top-panel, .bottom-panel {
-    height: 2em;
-    background: url(/assets/wood-texture.png);
+.top-panel,
+.bottom-panel {
+  height: 2em;
+  background: url(/assets/wood-texture.png);
 }
 
 form {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: space-around;
-    margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-around;
+  margin: 0;
 }
 
 footer {
-    margin: 12px;
+  margin: 12px;
 }
 
 .footer-links a {
-    color: #fff;
-    font-weight: bold;
+  color: #fff;
+  font-weight: bold;
 }
 
 .control-group fieldset {
-    min-width: 220px;
-    padding: 12px;
-    border: 1px solid #fff;
-    border-radius: 5px;
-    background: linear-gradient(rgba(0, 0, 0, 0.11), rgba(0, 0, 0, 0.27));
-    box-shadow: 2px 4px 19px 0 #000;
+  min-width: 220px;
+  padding: 12px;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  background: linear-gradient(rgba(0, 0, 0, 0.11), rgba(0, 0, 0, 0.27));
+  box-shadow: 2px 4px 19px 0 #000;
 }
 
 label svg {
-    width: 48px;
-    height: 48px;
-    fill: currentColor;
+  width: 48px;
+  height: 48px;
+  fill: currentColor;
 }
 
 .waveforms {
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
 
 .waveforms label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .synth-brand {
-    font-size: 36px;
-    font-family: cursive;
-    background-color: rgba(0, 0, 0, 0.12);
-    box-shadow: inset 0px 0px 19px 0 #000;
-    display: inline-block;
-    padding: 12px 24px;
-    border-radius: 5px;
-    color: #ffffff;
+  font-size: 36px;
+  font-family: cursive;
+  background-color: rgba(0, 0, 0, 0.12);
+  box-shadow: inset 0px 0px 19px 0 #000;
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 5px;
+  color: #ffffff;
 }
 
 .control-group {
-    padding: 4px;
-    flex: 1;
+  padding: 4px;
+  flex: 1;
 }
 
 /*RANGE CONTROLS*/
 
-input[type=range] {
-    -webkit-appearance: none;
-    width: 100%;
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
 }
 
-input[type=range]:focus {
-    outline: none;
+input[type="range"]:focus {
+  outline: none;
 }
 
-input[type=range]::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 6px;
-    cursor: pointer;
-    animate: 0.2s;
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    background: #3071a9;
-    border-radius: 1.3px;
-    border: 0.2px solid #010101;
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 6px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #3071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
 }
 
-input[type=range]::-webkit-slider-thumb {
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    border: 1px solid #000000;
-    height: 24px;
-    width: 12px;
-    border-radius: 3px;
-    background: #ffffff;
-    cursor: pointer;
-    -webkit-appearance: none;
-    margin-top: -10px;
+input[type="range"]::-webkit-slider-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 24px;
+  width: 12px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -10px;
 }
 
-input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #367ebd;
+input[type="range"]:focus::-webkit-slider-runnable-track {
+  background: #367ebd;
 }
 
-input[type=range]::-moz-range-track {
-    width: 100%;
-    height: 8.4px;
-    cursor: pointer;
-    animate: 0.2s;
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    background: #3071a9;
-    border-radius: 1.3px;
-    border: 0.2px solid #010101;
+input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  background: #3071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
 }
 
-input[type=range]::-moz-range-thumb {
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    border: 1px solid #000000;
-    height: 36px;
-    width: 16px;
-    border-radius: 3px;
-    background: #ffffff;
-    cursor: pointer;
+input[type="range"]::-moz-range-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
 }
 
-input[type=range]::-ms-track {
-    width: 100%;
-    height: 8.4px;
-    cursor: pointer;
-    animate: 0.2s;
-    background: transparent;
-    border-color: transparent;
-    border-width: 16px 0;
-    color: transparent;
+input[type="range"]::-ms-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: transparent;
+  border-color: transparent;
+  border-width: 16px 0;
+  color: transparent;
 }
 
-input[type=range]::-ms-fill-lower {
-    background: #2a6495;
-    border: 0.2px solid #010101;
-    border-radius: 2.6px;
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+input[type="range"]::-ms-fill-lower {
+  background: #2a6495;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
 }
 
-input[type=range]::-ms-fill-upper {
-    background: #3071a9;
-    border: 0.2px solid #010101;
-    border-radius: 2.6px;
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+input[type="range"]::-ms-fill-upper {
+  background: #3071a9;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
 }
 
-input[type=range]::-ms-thumb {
-    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    border: 1px solid #000000;
-    height: 36px;
-    width: 16px;
-    border-radius: 3px;
-    background: #ffffff;
-    cursor: pointer;
+input[type="range"]::-ms-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
 }
 
-input[type=range]:focus::-ms-fill-lower {
-    background: #3071a9;
+input[type="range"]:focus::-ms-fill-lower {
+  background: #3071a9;
 }
 
-input[type=range]:focus::-ms-fill-upper {
-    background: #367ebd;
+input[type="range"]:focus::-ms-fill-upper {
+  background: #367ebd;
 }
 
 /*OSCILLOSCOPE*/
 #oscilloscope {
-    width: 440px;
-    height: 200px;
-    display: inline-block;
-    border: 5px inset rgb(65, 23, 3);
-    margin: 30px 0 0 20px;
+  width: 440px;
+  height: 200px;
+  display: inline-block;
+  border: 5px inset rgb(65, 23, 3);
+  margin: 30px 0 0 20px;
 }
 
 /*KEYBOARD*/
 
 .keyboard {
-    box-shadow: 3px 3px 20px 4px #000;
-    background: url(/assets/wood-texture.png);
-    padding: 12px;
-    display: inline-block;
+  box-shadow: 3px 3px 20px 4px #000;
+  background: url(/assets/wood-texture.png);
+  padding: 12px;
+  display: inline-block;
 }
 
 .keyboard .notice {
-    font-size: 10px;
-    margin: 12px 0 0;
+  font-size: 10px;
+  margin: 12px 0 0;
 }
 
 .keyboard svg {
-    height: 40px;
-    fill: currentColor;
+  height: 40px;
+  fill: currentColor;
 }
 
 ul.keys {
-    display: flex;
-    border-radius: 4px;
-    margin: 0;
+  display: flex;
+  border-radius: 4px;
+  margin: 0;
 }
 
 li {
-    list-style: none;
-    border: 1px solid #eee;
-    border-top: 0;
-    margin: 0;
-    padding: 0;
-    border-radius: 0 0 4px 4px;
+  list-style: none;
+  border: 1px solid #eee;
+  border-top: 0;
+  margin: 0;
+  padding: 0;
+  border-radius: 0 0 4px 4px;
 }
 
 li.white {
-    height: 11em;
-    width: 4em;
-    background: linear-gradient(#f0f0f0, #fff);
-    box-shadow: inset 2px -2px 0px 0 #fff;
+  height: 11em;
+  width: 4em;
+  background: linear-gradient(#f0f0f0, #fff);
+  box-shadow: inset 2px -2px 0px 0 #fff;
 }
 
 li.white:active {
-    border: 1px solid #999;
-    box-shadow: inset 0px 1px 2px 0 #000;
-    background: linear-gradient(#fff, #e9e9e9);
+  border: 1px solid #999;
+  box-shadow: inset 0px 1px 2px 0 #000;
+  background: linear-gradient(#fff, #e9e9e9);
 }
 
 li.black {
-    width: 2em;
-    background: linear-gradient(#585858, #2b2b2b);
-    box-shadow: inset 5px -10px 0px 0 #000;
-    height: 6em;
-    margin: 0 0 0 -1em;
-    z-index: 2;
+  width: 2em;
+  background: linear-gradient(#585858, #2b2b2b);
+  box-shadow: inset 5px -10px 0px 0 #000;
+  height: 6em;
+  margin: 0 0 0 -1em;
+  z-index: 2;
 }
 
 li.black:active {
-    border: 1px solid #eee;
-    box-shadow: inset 4px -4px 0px 0 #000;
-    background: linear-gradient(#000, #4e4e4e);
+  border: 1px solid #eee;
+  box-shadow: inset 4px -4px 0px 0 #000;
+  background: linear-gradient(#000, #4e4e4e);
 }
 
-.d, .e, .g, .a, .b {
-    margin: 0 0 0 -1em;
+.d,
+.e,
+.g,
+.a,
+.b {
+  margin: 0 0 0 -1em;
 }
