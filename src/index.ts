@@ -1,5 +1,14 @@
-import "./commonImports";
-import { Observable } from "rxjs/Observable";
+import { fromEvent, Observable, combineLatest, merge } from "rxjs";
+import {
+  mapTo,
+  map,
+  merge as mergeOp,
+  scan,
+  distinctUntilChanged,
+  share,
+  filter,
+  combineLatest as combineLatestOp
+} from "rxjs/operators";
 import { makeOscillator } from "./oscillator.factory";
 import { KEYBOARD_MAPPING, PIANO_MAPPING } from "./constants";
 import { observeRadios, observeRange, observeCheckbox } from "./dom.util";
@@ -41,27 +50,28 @@ analyser.connect(audioCtx.destination);
 
 // Create an observable from different source observables to emit a calculated frequency to play
 const observeFrequency = (initialFreq$, oct$, coarse$): Observable<number> =>
-  initialFreq$
-    .combineLatest(oct$, coarse$)
-    .map(
+  initialFreq$.pipe(
+    combineLatestOp(oct$, coarse$),
+    map(
       ([initialFreq, octave, coarse]) =>
         initialFreq * Math.pow(2, octave + coarse)
-    );
+    )
+  );
 
 // Observe notes played on the virtual piano and computer keyboard
-const pianoKeysReleased$ = Observable.fromEvent(
+const pianoKeysReleased$ = fromEvent(
   document.querySelectorAll("ul.keys li"),
   "mouseup"
-).mapTo(0);
-const pianoKeysTouched$ = Observable.fromEvent(
+).pipe(mapTo(0));
+const pianoKeysTouched$ = fromEvent(
   document.querySelectorAll("ul.keys li"),
   "mousedown"
-).map((e: any) => PIANO_MAPPING[e.target.dataset.note]);
-const pianoKey$ = Observable.merge(pianoKeysTouched$, pianoKeysReleased$);
+).pipe(map((e: any) => PIANO_MAPPING[e.target.dataset.note]));
+const pianoKey$ = merge(pianoKeysTouched$, pianoKeysReleased$);
 
-const keyboardNotes$ = Observable.fromEvent(document, "keydown")
-  .merge(Observable.fromEvent(document, "keyup"))
-  .scan((acc: Array<string>, curr: KeyboardEvent) => {
+const keyboardNotes$ = fromEvent(document, "keydown").pipe(
+  mergeOp(fromEvent(document, "keyup")),
+  scan((acc: Array<string>, curr: KeyboardEvent) => {
     if (curr.type === "keyup") {
       return acc.filter(k => k !== curr.code);
     }
@@ -73,16 +83,17 @@ const keyboardNotes$ = Observable.fromEvent(document, "keydown")
       return [...acc, curr.code];
     }
     return acc;
-  }, [])
-  .distinctUntilChanged()
-  .map((keys: Array<string>) => keys.map(k => KEYBOARD_MAPPING[k]))
-  .share();
-
-const monoNotePlayed$ = keyboardNotes$.map(notes => notes[0] || 0);
-const monoMidiPlayed$ = midiInputTriggers$.map(
-  midiTrig => (midiTrig[0] && midiTrig[0].pitch) || 0
+  }, []),
+  distinctUntilChanged(),
+  map((keys: Array<string>) => keys.map(k => KEYBOARD_MAPPING[k])),
+  share()
 );
-const notePlayed$ = Observable.merge(
+
+const monoNotePlayed$ = keyboardNotes$.pipe(map(notes => notes[0] || 0));
+const monoMidiPlayed$ = midiInputTriggers$.pipe(
+  map(midiTrig => (midiTrig[0] && midiTrig[0].pitch) || 0)
+);
+const notePlayed$: Observable<any> = merge(
   pianoKey$,
   monoNotePlayed$,
   monoMidiPlayed$
@@ -92,31 +103,31 @@ const notePlayed$ = Observable.merge(
 const osc1oct$ = observeRange("#octave1", -1);
 const osc2oct$ = observeRange("#octave2", -1);
 
-const osc1coarse$ = observeRange("#coarse1").map(i => i / 100);
-const osc2coarse$ = observeRange("#coarse2").map(i => i / 100);
+const osc1coarse$ = observeRange("#coarse1").pipe(map(i => i / 100));
+const osc2coarse$ = observeRange("#coarse2").pipe(map(i => i / 100));
 
 const osc1Freq$ = observeFrequency(notePlayed$, osc1oct$, osc1coarse$);
 const osc2Freq$ = observeFrequency(notePlayed$, osc2oct$, osc2coarse$);
 
 const glideEnabled$ = observeCheckbox("#glideOn", false);
-const glide$ = Observable.combineLatest(
+const glide$: Observable<number> = combineLatest(
   glideEnabled$,
-  observeRange("#glide", 1).map(i => i / 10)
-).map(([glideEnabled, glide]) => (glideEnabled ? glide : 0));
+  observeRange("#glide", 1).pipe(map(i => i / 10))
+).pipe(map(([glideEnabled, glide]) => (glideEnabled ? (glide as number) : 0)));
 
 // Main subscribes combining observables and setting the corresponding parameters
 
-const gain1$ = observeRange("#gain1", 10).map(i => i / 10);
-const gain2$ = observeRange("#gain2", 10).map(i => i / 10);
+const gain1$ = observeRange("#gain1", 10).pipe(map(i => i / 10));
+const gain2$ = observeRange("#gain2", 10).pipe(map(i => i / 10));
 
 const paramExp = divider => i => Math.exp(i / divider) - 1;
-const attack$ = observeRange("#attack", 0).map(paramExp(10));
-const decay$ = observeRange("#decay", 0).map(i => i / 10);
-const sustain$ = observeRange("#sustain", 10).map(i => i / 10);
-const release$ = observeRange("#release", 0).map(paramExp(100));
+const attack$ = observeRange("#attack", 0).pipe(map(paramExp(10)));
+const decay$ = observeRange("#decay", 0).pipe(map(i => i / 10));
+const sustain$ = observeRange("#sustain", 10).pipe(map(i => i / 10));
+const release$ = observeRange("#release", 0).pipe(map(paramExp(100)));
 
 // Apply envelope on oscillators gain
-Observable.combineLatest(
+combineLatest(
   notePlayed$,
   gain1$,
   gain2$,
@@ -124,7 +135,7 @@ Observable.combineLatest(
   decay$,
   sustain$,
   release$
-).subscribe(([freq, gain1, gain2, attack, decay, sustain, release]) => {
+).subscribe(([freq, gain1, gain2, attack, decay, sustain, release]: any) => {
   // NOTE OFF
   if (freq === 0) {
     envGenOn(oscillator1.gainNode.gain, release);
@@ -150,9 +161,9 @@ observeRange("#cutoff", 20000).subscribe(
 observeRange("#resonance", 0).subscribe(q => (lowpassFilter.Q.value = q));
 
 // Apply note played
-Observable.combineLatest(
-  osc1Freq$.filter(f => f !== 0),
-  osc2Freq$.filter(f => f !== 0),
+combineLatest(
+  osc1Freq$.pipe(filter(f => f !== 0)),
+  osc2Freq$.pipe(filter(f => f !== 0)),
   glide$
 ).subscribe(([osc1Freq, osc2Freq, glide]) => {
   setFreq(oscillator1.oscillatorNode, osc1Freq, glide);
